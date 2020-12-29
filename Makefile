@@ -1,16 +1,19 @@
 NAME	=	PerlinNoise
 
-SRCS	=	main.c \
-			perlin.c \
-			poll_event.c \
-			draw_scene.c \
-			map_scrolling.c \
-			init_map.c
+SRCS	=	src/main.c \
+			src/perlin.c \
+			src/poll_event.c \
+			src/draw_scene.c \
+			src/map_scrolling.c \
+			src/init_all.c \
+			src/cell_list_utils.c \
+			src/error_check.c \
+			src/free_all.c
 
 OBJS	=	$(SRCS:.c=.o)
 
-CFLAGS	=	-Wall -Wextra -g -Og
-CFLAGS	+=	-I./include
+CFLAGS	=	-Wall -Wextra -O2
+CFLAGS	+=	-I./includes
 CFLAGS	+=	-l csfml-system
 CFLAGS	+=	-l csfml-graphics
 CFLAGS	+=	-l csfml-audio

@@ -15,7 +15,7 @@ static int hash[] = {208,34,231,213,32,248,233,56,161,78,24,140,71,48,140,254,24
 
 static int noise2(int x, int y, all_t *s_all)
 {
-    int y_index = (y + s_all->seed) % 256;
+    int y_index = (y + s_all->s_perlin.seed) % 256;
     if (y_index < 0)
         y_index += 256;
     int  x_index = (hash[y_index] + x) % 256;
