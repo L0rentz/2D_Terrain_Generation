@@ -26,6 +26,7 @@ typedef struct s_cell {
 } cell_t;
 
 typedef struct s_cell_node {
+    double noise;
     cell_t *s_cells;
     struct s_cell_node *next;
     struct s_cell_node *back;
@@ -52,7 +53,7 @@ typedef struct s_camera {
 
 typedef struct s_perlin {
     double freq;
-    int depth;
+    int octave;
     int index;
     int seed;
 } perlin_t;
@@ -71,7 +72,7 @@ typedef struct s_all {
     window_t s_window;
 } all_t;
 
-double perlin2d(double x, double y, double freq, int depth, all_t *s_all);
+double perlin2d_octave(double x, double y, double freq, int octaves, all_t *s_all);
 void poll_event(all_t *s_all);
 void draw_scene(all_t *s_all);
 void map_scrolling(all_t *s_all);
@@ -82,3 +83,4 @@ void cell_pop_front(all_t *s_all);
 all_t *init_all(int cell_size);
 int error_check(int ac, char **av);
 void free_all(all_t *s_all);
+void gen_caves(all_t *s_all, int caves_nb);

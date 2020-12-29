@@ -4,9 +4,9 @@ cell_node_t *create_cell_node(all_t *s_all, int offset)
 {
     cell_node_t *node = malloc(sizeof(cell_node_t));
     node->s_cells = malloc(sizeof(cell_t) * s_all->s_cell_head->height);
-    float noise = perlin2d(s_all->s_perlin.index - offset, 0, s_all->s_perlin.freq, s_all->s_perlin.depth, s_all);
+    node->noise = perlin2d_octave(s_all->s_perlin.index - offset, 0, s_all->s_perlin.freq, s_all->s_perlin.octave, s_all);
     for (int y = 0; y < s_all->s_cell_head->height; y++) {
-        if (noise * s_all->s_cell_head->height <= y)
+        if (node->noise * s_all->s_cell_head->height <= y)
             node->s_cells[y].alive = 1;
         else
             node->s_cells[y].alive = 0;

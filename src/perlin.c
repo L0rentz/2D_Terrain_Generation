@@ -13,7 +13,7 @@ static int hash[] = {208,34,231,213,32,248,233,56,161,78,24,140,71,48,140,254,24
                      135,176,183,191,253,115,184,21,233,58,129,233,142,39,128,211,118,137,139,255,
                      114,20,218,113,154,27,127,246,250,1,8,198,250,209,92,222,173,21,88,102,219};
 
-static int noise2(int x, int y, all_t *s_all)
+static int noise2d(int x, int y, all_t *s_all)
 {
     int y_index = (y + s_all->s_perlin.seed) % 256;
     if (y_index < 0)
@@ -35,36 +35,35 @@ static double smooth_inter(double x, double y, double s)
     return (lin_inter(x, y, s * s * (3 - 2 * s)));
 }
 
-static double noise2d(double x, double y, all_t *s_all)
+static double perlin_noise2d(double x, double y, all_t *s_all)
 {
     const int x_int = floor( x );
     const int y_int = floor( y );
     const double x_frac = x - x_int;
     const double y_frac = y - y_int;
-    const int s = noise2( x_int, y_int, s_all);
-    const int t = noise2( x_int+1, y_int, s_all);
-    const int u = noise2( x_int, y_int+1, s_all);
-    const int v = noise2( x_int+1, y_int+1, s_all);
+    const int s = noise2d( x_int, y_int, s_all);
+    const int t = noise2d( x_int+1, y_int, s_all);
+    const int u = noise2d( x_int, y_int+1, s_all);
+    const int v = noise2d( x_int+1, y_int+1, s_all);
     const double low = smooth_inter( s, t, x_frac);
     const double high = smooth_inter( u, v, x_frac);
     const double result = smooth_inter( low, high, y_frac);
     return (result);
 }
 
-double perlin2d(double x, double y, double freq, int depth, all_t *s_all)
+double perlin2d_octave(double x, double y, double freq, int octaves, all_t *s_all)
 {
     double  xa = x * freq;
     double  ya = y * freq;
-    double  amp = 1.0;
-    double  fin = 0;
-    double  div = 0.0;
-    for (int i = 0; i < depth; i++)
-    {
-        div += 256 * amp;
-        fin += noise2d(xa, ya, s_all) * amp;
-        amp /= 2;
+    double  amplitude = 1.0;
+    double  total = 0;
+    double  maxValue = 0;
+    for (int i = 0; i < octaves; i++) {
+        maxValue += 256 * amplitude;
+        total += perlin_noise2d(xa, ya, s_all) * amplitude;
+        amplitude /= 2;
         xa *= 2;
         ya *= 2;
     }
-    return (fin / div);
+    return (total / maxValue);
 }

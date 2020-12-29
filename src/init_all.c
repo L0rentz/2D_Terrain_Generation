@@ -19,8 +19,8 @@ void init_perlin(all_t *s_all)
 {
     s_all->s_perlin.seed = rand();
     s_all->s_perlin.index = 0;
-    s_all->s_perlin.depth = 5;
-    s_all->s_perlin.freq = 0.010;
+    s_all->s_perlin.octave = 20;
+    s_all->s_perlin.freq = 0.001;
 }
 
 void init_cell_list(all_t *s_all, int cell_size)
@@ -32,6 +32,7 @@ void init_cell_list(all_t *s_all, int cell_size)
     s_all->s_cell_head->length = 0;
     for (; s_all->s_perlin.index < s_all->s_cell_head->width; s_all->s_perlin.index++)
         cell_push_back(s_all);
+    gen_caves(s_all, 200);
 }
 
 void init_keys(all_t *s_all)
