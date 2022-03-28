@@ -1,5 +1,7 @@
-# 2D-Terrain-Generation
-## USAGE
+# 2D_Terrain_Generation  
+/!\ currently in a bad state  
+
+## USAGE  
 ./PerlinNoise cellSize  
   
 Infinite 2D terrain generation made with CSFML using perlin noise  
